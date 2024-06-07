@@ -1,76 +1,99 @@
-var navlist = document.getElementById('navitems');
+var navlist = document.getElementById("navitems");
 function openmenu() {
-    navlist.style.left = '0';
+  navlist.style.left = "0";
 }
 function closemenu() {
-    navlist.style.left = '-200px';
+  navlist.style.left = "-200px";
 }
 document.querySelector("#menuopen").addEventListener("click", openmenu);
 
 /* ----- keeps the links active ------*/
 
-document.addEventListener('DOMContentLoaded', function () {
-    
-    var currentUrl = window.location.href.split('#')[0];
-    var navLinks = document.querySelectorAll('.nav-links');
+document.addEventListener("DOMContentLoaded", function () {
+  var currentUrl = window.location.href.split("#")[0];
+  var navLinks = document.querySelectorAll(".nav-links");
 
-    navLinks.forEach(function (link) {
+  navLinks.forEach(function (link) {
+    var linkUrl = link.href.split("#")[0];
 
-        var linkUrl = link.href.split('#')[0];
-
-        if (linkUrl === currentUrl) {
-            link.classList.add('active');
-        }
-    });
+    if (linkUrl === currentUrl) {
+      link.classList.add("active");
+    }
+  });
 });
 
 /* -------- move to top or bottom accordingly -------- */
 
-document.addEventListener('DOMContentLoaded', function () {
-    
-    var backToTopLink = document.getElementById('backtotop');
+document.addEventListener("DOMContentLoaded", function () {
+  var backToTopLink = document.getElementById("backtotop");
 
-    window.addEventListener('scroll', function () {
-        if (this.oldScroll > this.scrollY) {
-            backToTopLink.href = '#top'; 
-            backToTopLink.querySelector('i').className = 'fa fa-arrow-up';
-        } else {
-            backToTopLink.href = '#bottom'; 
-            backToTopLink.querySelector('i').className = 'fa fa-arrow-down';    
-        }
+  window.addEventListener("scroll", function () {
+    if (this.oldScroll > this.scrollY) {
+      backToTopLink.href = "#top";
+      backToTopLink.querySelector("i").className = "fa fa-arrow-up";
+    } else {
+      backToTopLink.href = "#bottom";
+      backToTopLink.querySelector("i").className = "fa fa-arrow-down";
+    }
 
-        this.oldScroll = this.scrollY;
-    });
+    this.oldScroll = this.scrollY;
+  });
 });
 
 /* ------ contact from --------- */
 
 function validateForm() {
-    var name = document.getElementById('username');
-    var phone = document.getElementById('phone');
-    var message = document.getElementById('message');
+  var name = document.getElementById("username");
+  var phone = document.getElementById("phone");
+  var message = document.getElementById("message");
 
-    if (name.value.trim() === '' || phone.value.trim() === '' || message.value.trim() === '') {
-        showError('All fields are required.');
-        return false;
-    }
+  if (
+    name.value.trim() === "" ||
+    phone.value.trim() === "" ||
+    message.value.trim() === ""
+  ) {
+    showError("All fields are required.");
+    return false;
+  }
 
-    var phoneNoPattern = /^\d{10}$/;
-    if (!phoneNoPattern.test(phone.value)) {
-        showError('Please enter a valid phone number');
-        return false;
-    }
+  var phoneNoPattern = /^\d{10}$/;
+  if (!phoneNoPattern.test(phone.value)) {
+    showError("Please enter a valid phone number");
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
-
 function showError(message) {
-    var errorMessage = document.getElementById('errorMessage');
-    errorMessage.textContent = message;
+  var errorMessage = document.getElementById("errorMessage");
+  errorMessage.textContent = message;
 }
 
 function success() {
-    var errorMessage = document.getElementById('errorMessage');
-    errorMessage.textContent = '';
+  var errorMessage = document.getElementById("errorMessage");
+  errorMessage.textContent = "";
 }
+
+document
+  .getElementById("contactForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const message = document.getElementById("message").value;
+
+    const emailBody = `
+        Name: ${name}
+        Email: ${email}
+        Phone: ${phone}
+        Message: ${message}
+    `;
+
+    const mailtoLink = `mailto:your-email@example.com?subject=Contact%20Form%20Submission&body=${encodeURIComponent(
+      emailBody
+    )}`;
+    window.location.href = mailtoLink;
+  });
